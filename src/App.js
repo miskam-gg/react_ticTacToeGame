@@ -1,25 +1,37 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import TicTacToeGame from './TicTacToeGame';
+import NineByNineGame from './NineByNineGame';
+import GameSelector from './GameSelector';
 
-function App() {
+const App = () => {
+  const [selectedGame, setSelectedGame] = useState(null);
+
+  const handleSelectGame = (game) => {
+    setSelectedGame(game);
+  };
+
+  const handleBackToMenu = () => {
+    setSelectedGame(null);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {!selectedGame ? (
+        <GameSelector onSelectGame={handleSelectGame} />
+      ) : selectedGame === '3x3' ? (
+        <div>
+          <h2 className="game-title">3x3 Game</h2>
+          <TicTacToeGame onBack={handleBackToMenu} />
+        </div>
+      ) : (
+        <div>
+          <h2 className="game-title">9x9 Game</h2>
+          <NineByNineGame onBack={handleBackToMenu} />
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default App;
